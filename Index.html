@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Quiz</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stlyesheet" href="CodingQuiz.css">
+    <link rel="stlyesheet" href="./CodingQuiz.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+   
     
-    <body>
-        
         <div class="container">
 
             <h1>Coding Quiz Challenge</h1>
@@ -21,21 +26,25 @@
             <div id="question-container" class="hide">
                 <div id="question">Questions</div>
                 <div id="answer-buttons" class="btn-grid">
-                    <button class="btn">Answer 1</button>
-                    <button class="btn">Answer 2</button>
-                    <button class="btn">Answer 3</button>
-                    <button class="btn">Answer 4</button>
+                    <button class="btn" id="answer0">Answer 1</button>
+                    <button class="btn" id="answer1">Answer 2</button>
+                    <button class="btn" id="answer2">Answer 3</button>
+                    <button class="btn" id="answer3">Answer 4</button>
                 </div>
             </div>
+           
+            <div id="end-screen" class="hide">
+                <h2>You're finished! Let's see how you did!</h2>
+                <p>Your final score is <span id="final-score"></span>.</p>
+                <p>
+                  Enter initials: <input type="text" id="initials" max="3" />
+                  <button id="submit">Submit</button>
+                </p>
+              </div>
 
 
-            
-
-        
-        
         </div>
        
         <script src="CodingQuiz.js"></script>
-       
-    </body>
+</body>
 </html>
