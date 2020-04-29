@@ -1,10 +1,17 @@
+var timeEl = document.querySelector(".time");
+var secondsLeft = 60;
+
 var startButton = document.getElementById('start-btn')
-var nextButton = document.getElementById('next-btn')
-var questionContainerElement = document.getElementById('question-container')
-var questionElement = document.getElementById('question')
-var answerButtonsElement = document.getElementById('answer-buttons')
-var codeQuizTitle = document.getElementById('codeQuiz')
-var codeQuizRules = document.getElementById('quizRules')
+var nextButton = document.getElementById('next-btn');
+var questionContainerElement = document.getElementById('question-container');
+var questionElement = document.getElementById('question');
+var answerButtonsElement = document.getElementById('answer-buttons');
+var scorePage = document.getElementById('quizComplete');
+var codeQuiz = document.getElementById('codeQuiz');
+var quizRules = document.getElementById('quizRules');
+var submitButton = document.getElementById('submit-btn');
+
+
 
 let shuffledQuestions, currentQuestionIndex
 
@@ -15,13 +22,29 @@ nextButton.addEventListener('click', () => {
 })
 
 function startGame() {
-    codeQuizTitle.classList.add('hide')
-    codeQuizRules.classList.add('hide')
   startButton.classList.add('hide')
+  codeQuiz.classList.add('hide')
+  quizRules.classList.add('hide')
+  scorePage.classList.add('hide')
   shuffledQuestions = questions.sort(() => Math.random() - .5)
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
+
+  displayTime()  
   setNextQuestion()
+}
+
+function displayTime() {
+    var timerInterval = setInterval(function() {
+   secondsLeft--;
+   timeEl.textContent = secondsLeft;
+   console.log(secondsLeft)
+   
+    if (secondsLeft === 0) {
+      clearInterval(timerInterval);
+
+    }
+  }, 1000);
 }
 
 function setNextQuestion() {
@@ -32,7 +55,7 @@ function setNextQuestion() {
 function showQuestion(question) {
   questionElement.innerText = question.question
   question.answers.forEach(answer => {
-    const button = document.createElement('button')
+    var button = document.createElement('button')
     button.innerText = answer.text
     button.classList.add('btn')
     if (answer.correct) {
@@ -52,8 +75,8 @@ function resetState() {
 }
 
 function selectAnswer(e) {
-  var selectedButton = e.target
-  var correct = selectedButton.dataset.correct
+    var selectedButton = e.target
+    var correct = selectedButton.dataset.correct
   setStatusClass(document.body, correct)
   Array.from(answerButtonsElement.children).forEach(button => {
     setStatusClass(button, button.dataset.correct)
@@ -61,70 +84,77 @@ function selectAnswer(e) {
   if (shuffledQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide')
   } else {
-    startButton.innerText = 'Get Score!'
-    startButton.classList.remove('hide')
+    startButton.innerText = 'Get Score'
+    scorePage.classList.remove('hide')
   }
 }
 
 function setStatusClass(element, correct) {
-  clearStatusClass(element)
-  if (correct) {
-    element.classList.add('correct')
-  } else {
-    element.classList.add('wrong')
+    clearStatusClass(element)
+    if (correct) {
+      element.classList.add('correct')
+    } else {
+        secondsLeft -= 5
+        if (secondsLeft < 0) {
+            secondsLeft = 0;
+          }
+      element.classList.add('wrong')
+     
+    }
   }
-}
+  
+  function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
+  }
+  
 
-function clearStatusClass(element) {
-  element.classList.remove('correct')
-  element.classList.remove('wrong')
-}
+ 
 
 var questions = [
-  {
-    question: 'Inside which HTML element do we put the Javascript?',
-    answers: [
-      { text: '<Javascript>', correct: false },
-      { text: '<js>', correct: false },
-      { text: '<scripting>', correct: false },
-      { text: '<script>', correct: true }
-    ]
-  },
-  {
-    question: 'Commonly used data types DO NOT include:',
-    answers: [
-      { text: 'Strings', correct: false },
-      { text: 'Booleans', correct: false },
-      { text: 'Alerts', correct: true },
-      { text: 'Numbers', correct: false }
-    ]
-  },
-  {
-    question: 'How do you declare a Javascript variable?',
-    answers: [
-      { text: 'v bookName', correct: false },
-      { text: 'variable bookName', correct: false },
-      { text: 'var bookName', correct: true },
-      { text: 'None of the above', correct: false }
-    ]
-  },
-  {
-    question: 'A useful tool used during development and debugging for printing content to the debugger is:',
-    answers: [
-      { text: 'console.log', correct: true },
-      { text: 'terminal/bash', correct: false },
-      { text: 'FOR loop', correct: false },
-      { text: 'Javascript', correct: false }
-    ]
-  },
-  {
-    question: 'What is the correct syntax for referring to an external script called “quizTime.js',
-    answers: [
-      { text: '<script href=”quizTime.js”>', correct: false },
-      { text: '<script src=”quizTime.js”>', correct: true },
-      { text: '<script ref=”quizTime.js”>', correct: false },
-      { text: '<script name=”quizTime.js”>', correct: false }
-    ]
-  }
-]
-
+    {
+      question: 'Inside which HTML element do we put the Javascript?',
+      answers: [
+        { text: '<Javascript>', correct: false },
+        { text: '<js>', correct: false },
+        { text: '<scripting>', correct: false },
+        { text: '<script>', correct: true }
+      ]
+    },
+    {
+      question: 'Commonly used data types DO NOT include:',
+      answers: [
+        { text: 'Strings', correct: false },
+        { text: 'Booleans', correct: false },
+        { text: 'Alerts', correct: true },
+        { text: 'Numbers', correct: false }
+      ]
+    },
+    {
+      question: 'How do you declare a Javascript variable?',
+      answers: [
+        { text: 'v bookName', correct: false },
+        { text: 'variable bookName', correct: false },
+        { text: 'var bookName', correct: true },
+        { text: 'None of the above', correct: false }
+      ]
+    },
+    {
+      question: 'A useful tool used during development and debugging for printing content to the debugger is:',
+      answers: [
+        { text: 'console.log', correct: true },
+        { text: 'terminal/bash', correct: false },
+        { text: 'FOR loop', correct: false },
+        { text: 'Javascript', correct: false }
+      ]
+    },
+    {
+      question: 'What is the correct syntax for referring to an external script called “quizTime.js',
+      answers: [
+        { text: '<script href=”quizTime.js”>', correct: false },
+        { text: '<script src=”quizTime.js”>', correct: true },
+        { text: '<script ref=”quizTime.js”>', correct: false },
+        { text: '<script name=”quizTime.js”>', correct: false }
+      ]
+    }
+  ]

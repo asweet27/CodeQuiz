@@ -12,7 +12,7 @@
     <h1 id="codeQuiz">Coding Quiz Challenge!</h1>
     <h2 class="time"></h2>
     <p id="quizRules"> Try to answer the following code-related questions within the time limit
-        Keep in mind that incorrect answers will penalize your score time by 10 seconds.
+        Keep in mind that incorrect answers will penalize your score time by 5 seconds.
     </p>
     <div id="question-container" class="hide">
       <div id="question">Question</div>
@@ -27,6 +27,16 @@
       <button id="start-btn" class="start-btn btn">Start</button>
       <button id="next-btn" class="next-btn btn hide">Next</button>
     </div>
+    <div id="quizComplete">
+    <h3>All done!</h3>
+    <p>Your final score is <span id="final-score"></span>.</p>
+    <p>
+      Enter initials: <input type="text" id="initials" max="3" />
+      <button id="submit-btn">Submit</button>
+    </p>
+    </div>
+  
+
   </div>
 </body>
 </html>
