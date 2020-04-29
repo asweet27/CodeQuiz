@@ -86,16 +86,19 @@ function selectAnswer(e) {
   if (shuffledQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide')
   } else {
-    startButton.innerText = 'Get Score'
+    //startButton.innerText = 'Get Score'
     questionContainerElement.classList.add('hide')
-    quizOver()
+    //scorePage.classList.remove('hide')
+    
     //clearInterval(timerInterval);
-    scorePage.classList.remove('hide')
+    quizOver()
+    
   }
 }
 
 function quizOver() {
-    clearInterval(timerInterval)
+    clearInterval(timerInterval);
+    scorePage.classList.remove('hide')
 }
 
 function setStatusClass(element, correct) {
