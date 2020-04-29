@@ -1,4 +1,5 @@
 var timeEl = document.querySelector(".time");
+//var currentQuestionIndex = 0;
 var secondsLeft = 60;
 var timerInterval;
 
@@ -99,6 +100,10 @@ function selectAnswer(e) {
 function quizOver() {
     clearInterval(timerInterval);
     scorePage.classList.remove('hide')
+
+    var finalScoreEl = document.getElementById("final-score");
+    var time = questions.length * 60
+    finalScoreEl.textContent = time;
 }
 
 function setStatusClass(element, correct) {
@@ -118,8 +123,40 @@ function setStatusClass(element, correct) {
     element.classList.remove('correct')
     element.classList.remove('wrong')
   }
-  
 
+  var initialsEl = document.getElementById("initials");
+
+  function saveHighscore() {
+    // get value of input box
+    var initials = initialsEl.value.trim();
+  
+    // make sure value wasn't empty
+    if (initials !== "") {
+      // get saved scores from localstorage, or if not any, set to empty array
+      var highscores =
+        JSON.parse(window.localStorage.getItem("scores")) || [];
+  
+      // format new score object for current user
+      var newScore = {
+        score: time,
+        initials: initials
+      };
+  
+      // save to localstorage
+      highscores.push(newScore);
+      window.localStorage.setItem("scores", JSON.stringify(highscores));
+  
+      // redirect to next page
+      window.location.href = "Scoresheet.html";
+    }
+
+
+  submitButton.addEventListener('click', saveHighscore)
+ 
+  }
+
+  
+  //submitButton.addEventListener('click', saveHighscore)
  
 
 var questions = [
