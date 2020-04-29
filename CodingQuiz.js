@@ -1,5 +1,6 @@
 var timeEl = document.querySelector(".time");
 var secondsLeft = 60;
+var timerInterval;
 
 var startButton = document.getElementById('start-btn')
 var nextButton = document.getElementById('next-btn');
@@ -10,6 +11,8 @@ var scorePage = document.getElementById('quizComplete');
 var codeQuiz = document.getElementById('codeQuiz');
 var quizRules = document.getElementById('quizRules');
 var submitButton = document.getElementById('submit-btn');
+
+scorePage.classList.add('hide')
 
 
 
@@ -25,7 +28,6 @@ function startGame() {
   startButton.classList.add('hide')
   codeQuiz.classList.add('hide')
   quizRules.classList.add('hide')
-  scorePage.classList.add('hide')
   shuffledQuestions = questions.sort(() => Math.random() - .5)
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
@@ -85,8 +87,15 @@ function selectAnswer(e) {
     nextButton.classList.remove('hide')
   } else {
     startButton.innerText = 'Get Score'
+    questionContainerElement.classList.add('hide')
+    quizOver()
+    //clearInterval(timerInterval);
     scorePage.classList.remove('hide')
   }
+}
+
+function quizOver() {
+    clearInterval(timerInterval)
 }
 
 function setStatusClass(element, correct) {
@@ -94,7 +103,6 @@ function setStatusClass(element, correct) {
     if (correct) {
       element.classList.add('correct')
     } else {
-        secondsLeft -= 5
         if (secondsLeft < 0) {
             secondsLeft = 0;
           }
