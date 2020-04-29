@@ -1,163 +1,5 @@
 var timeEl = document.querySelector(".time");
 //var currentQuestionIndex = 0;
-var secondsLeft = 60;
-var timerInterval;
-
-var startButton = document.getElementById('start-btn')
-var nextButton = document.getElementById('next-btn');
-var questionContainerElement = document.getElementById('question-container');
-var questionElement = document.getElementById('question');
-var answerButtonsElement = document.getElementById('answer-buttons');
-var scorePage = document.getElementById('quizComplete');
-var codeQuiz = document.getElementById('codeQuiz');
-var quizRules = document.getElementById('quizRules');
-var submitButton = document.getElementById('submit-btn');
-
-scorePage.classList.add('hide')
-
-
-
-let shuffledQuestions, currentQuestionIndex
-
-startButton.addEventListener('click', startGame)
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++
-  setNextQuestion()
-})
-
-function startGame() {
-  startButton.classList.add('hide')
-  codeQuiz.classList.add('hide')
-  quizRules.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
-  currentQuestionIndex = 0
-  questionContainerElement.classList.remove('hide')
-
-  displayTime()  
-  setNextQuestion()
-}
-
-function displayTime() {
-    var timerInterval = setInterval(function() {
-   secondsLeft--;
-   timeEl.textContent = secondsLeft;
-   console.log(secondsLeft)
-   
-    if (secondsLeft === 0) {
-      clearInterval(timerInterval);
-
-    }
-  }, 1000);
-}
-
-function setNextQuestion() {
-  resetState()
-  showQuestion(shuffledQuestions[currentQuestionIndex])
-}
-
-function showQuestion(question) {
-  questionElement.innerText = question.question
-  question.answers.forEach(answer => {
-    var button = document.createElement('button')
-    button.innerText = answer.text
-    button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
-    }
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-  })
-}
-
-function resetState() {
-  clearStatusClass(document.body)
-  nextButton.classList.add('hide')
-  while (answerButtonsElement.firstChild) {
-    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-  }
-}
-
-function selectAnswer(e) {
-    var selectedButton = e.target
-    var correct = selectedButton.dataset.correct
-  setStatusClass(document.body, correct)
-  Array.from(answerButtonsElement.children).forEach(button => {
-    setStatusClass(button, button.dataset.correct)
-  })
-  if (shuffledQuestions.length > currentQuestionIndex + 1) {
-    nextButton.classList.remove('hide')
-  } else {
-    //startButton.innerText = 'Get Score'
-    questionContainerElement.classList.add('hide')
-    //scorePage.classList.remove('hide')
-    
-    //clearInterval(timerInterval);
-    quizOver()
-    
-  }
-}
-
-function quizOver() {
-    clearInterval(timerInterval);
-    scorePage.classList.remove('hide')
-
-    var finalScoreEl = document.getElementById("final-score");
-    var time = questions.length * 60
-    finalScoreEl.textContent = time;
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element)
-    if (correct) {
-      element.classList.add('correct')
-    } else {
-        if (secondsLeft < 0) {
-            secondsLeft = 0;
-          }
-      element.classList.add('wrong')
-     
-    }
-  }
-  
-  function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
-  }
-
-  var initialsEl = document.getElementById("initials");
-
-  function saveHighscore() {
-    // get value of input box
-    var initials = initialsEl.value.trim();
-  
-    // make sure value wasn't empty
-    if (initials !== "") {
-      // get saved scores from localstorage, or if not any, set to empty array
-      var highscores =
-        JSON.parse(window.localStorage.getItem("scores")) || [];
-  
-      // format new score object for current user
-      var newScore = {
-        score: time,
-        initials: initials
-      };
-  
-      // save to localstorage
-      highscores.push(newScore);
-      window.localStorage.setItem("scores", JSON.stringify(highscores));
-  
-      // redirect to next page
-      window.location.href = "Scoresheet.html";
-    }
-
-
-  submitButton.addEventListener('click', saveHighscore)
- 
-  }
-
-  
-  //submitButton.addEventListener('click', saveHighscore)
- 
 
 var questions = [
     {
@@ -206,3 +48,162 @@ var questions = [
       ]
     }
   ]
+var secondsLeft = questions.length * 15;
+var timerInterval;
+
+var startButton = document.getElementById('start-btn')
+var nextButton = document.getElementById('next-btn');
+var questionContainerElement = document.getElementById('question-container');
+var questionElement = document.getElementById('question');
+var answerButtonsElement = document.getElementById('answer-buttons');
+var scorePage = document.getElementById('quizComplete');
+var codeQuiz = document.getElementById('codeQuiz');
+var quizRules = document.getElementById('quizRules');
+var submitButton = document.getElementById('submit-btn');
+
+scorePage.classList.add('hide')
+
+
+
+let shuffledQuestions, currentQuestionIndex
+
+startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++
+  setNextQuestion()
+})
+
+function startGame() {
+  startButton.classList.add('hide')
+  codeQuiz.classList.add('hide')
+  quizRules.classList.add('hide')
+  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  currentQuestionIndex = 0
+  questionContainerElement.classList.remove('hide')
+
+  displayTime()  
+  setNextQuestion()
+}
+
+function displayTime() {
+    var timerInterval = setInterval(function() {
+   secondsLeft--;
+   timeEl.textContent = secondsLeft;
+   console.log(secondsLeft)
+   
+    if (secondsLeft <= 0) {
+      clearInterval(timerInterval);
+
+    }
+  }, 1000);
+}
+
+function setNextQuestion() {
+  resetState()
+  showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+function showQuestion(question) {
+  questionElement.innerText = question.question
+  question.answers.forEach(answer => {
+    var button = document.createElement('button')
+    button.innerText = answer.text
+    button.classList.add('btn')
+    if (answer.correct) {
+      button.dataset.correct = answer.correct
+    }
+    button.addEventListener('click', selectAnswer)
+    answerButtonsElement.appendChild(button)
+  })
+}
+
+function resetState() {
+  clearStatusClass(document.body)
+  nextButton.classList.add('hide')
+  while (answerButtonsElement.firstChild) {
+    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+  }
+}
+
+function selectAnswer(e) {
+    var selectedButton = e.target
+    var correct = selectedButton.dataset.correct
+  setStatusClass(document.body, correct)
+  Array.from(answerButtonsElement.children).forEach(button => {
+    setStatusClass(button, button.dataset.correct)
+
+  })
+  if (shuffledQuestions.length > currentQuestionIndex + 1) {
+    nextButton.classList.remove('hide')
+  } else {
+    //startButton.innerText = 'Get Score'
+    questionContainerElement.classList.add('hide')
+    //scorePage.classList.remove('hide')
+    
+    //clearInterval(timerInterval);
+    quizOver()
+    
+  }
+}
+
+function quizOver() {
+    clearInterval(timerInterval);
+    scorePage.classList.remove('hide')
+
+    var finalScoreEl = document.getElementById("final-score");
+    finalScoreEl.textContent = secondsLeft;
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element)
+    if (correct) {
+      element.classList.add('correct')
+    } else {
+        debugger
+        //secondsLeft = secondsLeft - 5
+        element.classList.add('wrong')
+    }
+      
+    }
+    
+  
+  function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
+  }
+
+  var initialsEl = document.getElementById("initials");
+
+  function saveHighscore() {
+    
+    var initials = initialsEl.value.trim();
+  
+    
+    if (initials !== "") {
+      
+      var highscores =
+        JSON.parse(window.localStorage.getItem("scores")) || [];
+  
+      
+      var newScore = {
+        score: time,
+        initials: initials
+      };
+  
+      
+      highscores.push(newScore);
+      window.localStorage.setItem("scores", JSON.stringify(highscores));
+  
+     
+      window.location.href = "Scoresheet.html";
+    }
+
+
+  submitButton.addEventListener('click', saveHighscore)
+ 
+  }
+
+  
+  
+ 
+
