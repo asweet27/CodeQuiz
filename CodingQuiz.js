@@ -129,7 +129,7 @@ function selectAnswer(e) {
     var selectedButton = e.target
     var correct = selectedButton.dataset.correct
     if (!correct) {
-        secondsLeft = secondsLeft - 5
+        secondsLeft = secondsLeft - 10
     }
   setStatusClass(document.body, correct)
   Array.from(answerButtonsElement.children).forEach(button => {
@@ -139,11 +139,9 @@ function selectAnswer(e) {
   if (shuffledQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide')
   } else {
-    //startButton.innerText = 'Get Score'
-    questionContainerElement.classList.add('hide')
-    //scorePage.classList.remove('hide')
     
-    //clearInterval(timerInterval);
+    questionContainerElement.classList.add('hide')
+  
     quizOver()
     
   }
