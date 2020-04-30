@@ -184,9 +184,8 @@ function setStatusClass(element, correct) {
       var highscores =
         JSON.parse(window.localStorage.getItem("scores")) || [];
   
-      
       var newScore = {
-        score: time,
+        score: secondsLeft,
         initials: initials
       };
   
@@ -202,6 +201,17 @@ function setStatusClass(element, correct) {
   submitButton.addEventListener('click', saveHighscore)
  
   }
+
+  function checkForEnter(event) {
+    if (event.key === "Enter") {
+        saveHighscore();
+    }
+};
+
+document.getElementById('sbmtBtn').onclick = saveHighscore;
+
+document.getElementById('initials').onkeyup = checkForEnter;
+
 
   
   
