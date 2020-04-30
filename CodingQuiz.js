@@ -1,5 +1,5 @@
 var timeEl = document.querySelector(".time");
-//var currentQuestionIndex = 0;
+
 
 var questions = [
     {
