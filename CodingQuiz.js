@@ -128,6 +128,9 @@ function resetState() {
 function selectAnswer(e) {
     var selectedButton = e.target
     var correct = selectedButton.dataset.correct
+    if (!correct) {
+        secondsLeft = secondsLeft - 5
+    }
   setStatusClass(document.body, correct)
   Array.from(answerButtonsElement.children).forEach(button => {
     setStatusClass(button, button.dataset.correct)
@@ -160,7 +163,7 @@ function setStatusClass(element, correct) {
       element.classList.add('correct')
     } else {
         debugger
-        //secondsLeft = secondsLeft - 5
+        
         element.classList.add('wrong')
     }
       
